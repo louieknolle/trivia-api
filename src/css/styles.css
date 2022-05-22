@@ -1,5 +1,25 @@
-/* body {
+body {
   background-color: lightblue;
-} */
+} 
 
-/*  STYLES GO HERE */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.row {
+  padding-top: 30px;
+}
+
+.col-md-3 {
+  border: 1px solid black;
+  display: none;
+}
+
+button {
+  text-align: center;
+  width: 30%;
+  height: 40%;
+  text-transform:uppercase;
+}
