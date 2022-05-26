@@ -2,27 +2,49 @@ import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
+import TriviaService from './trivia-service';
 
 
 $(document).ready(function() {
   $('#playButton').click(function(){
-    let request = new XMLHttpRequest();
-    const url = `https://opentdb.com/api.php?amount=12&category=9&difficulty=medium&type=multiple`;
+    let promise = TriviaService.getTrivia();
+    promise.then(function(response) {
+      const response = JSON.parse(response);
+      $('question').each((index, element) => {
+        (element).text(response.results[index].question);
+      });
+      $('.triviaCard').click(function () {
+        $('.answer').each((index, element) => {
+          $('.question').hide();
+          $('.answer').show();
+          $(element).text(response.results[index].correct_answer);
+        })
+      })
+    }, function(error) {
+      $('.showErrors').text(`There was an error processing your request: ${error}`);
+    });
+  });
+});
 
-    request.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        const response = JSON.parse(this.responseText);
-        getElements(response);
-      }
-    };
+    /*function getElements(response) {
+      $('question').each((index, element) => {
+        (element).text(response.results[index].question);
+      });
 
-    request.open("GET", url, true);
-    request.send(); 
+      $('.triviaCard').click(function () {
+        $('.answer').each((index, element) => {
+          $('.question').hide();
+          $('.answer').show();
+          $(element).text(response.results[index].correct_answer);
+        })
+      })
 
-    $('.col-md-3').show();
-    $('.answers').hide();
+      $('.cardOne').click(function() {
+        $('.questionOne').hide();
+        $('.answerOne').show();
+        $('.answerOne').text(response.results[0].correct_answer);
+      });
 
-    function getElements(response) {
       $('.questionOne').text(response.results[0].question);
       $('.questionTwo').text(response.results[1].question);
       $('.questionThree').text(response.results[2].question);
@@ -34,7 +56,7 @@ $(document).ready(function() {
       $('.questionNine').text(response.results[8].question);
       $('.questionTen').text(response.results[9].question);
       $('.questionEleven').text(response.results[10].question);
-      $('.questionTwelve').text(response.results[11].question);
+      $('.questionTwelve').text(response.results[11].question); 
 
       $('.cardOne').click(function() {
         $('.questionOne').hide();
@@ -100,5 +122,5 @@ $(document).ready(function() {
 
   });
 });
-
+*/
 
