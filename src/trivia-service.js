@@ -3,7 +3,6 @@ export default class TriviaService {
     return new Promise(function(resolve, reject) {
       let request = new XMLHttpRequest();
       const url = `https://opentdb.com/api.php?amount=12&category=9&difficulty=medium&type=multiple`;
-      
       request.onload = function() {
         if (this.status === 200) {
           resolve(request.response);

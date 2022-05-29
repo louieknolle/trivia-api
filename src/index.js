@@ -7,26 +7,29 @@ import TriviaService from './trivia-service';
 
 $(document).ready(function() {
   $('#playButton').click(function(){
+    $('.col-md-3').show();
+    $('.answers').hide();
+    
     let promise = TriviaService.getTrivia();
     promise.then(function(response) {
-      const response = JSON.parse(response);
-      $('question').each((index, element) => {
-        (element).text(response.results[index].question);
+      const responseData = JSON.parse(response);
+      $('.questions').each((index, element) => {
+        $(element).text(responseData.results[index].question);
       });
-      $('.triviaCard').click(function () {
-        $('.answer').each((index, element) => {
-          $('.question').hide();
-          $('.answer').show();
-          $(element).text(response.results[index].correct_answer);
-        })
-      })
+      $('.col-md-3').click(function () {
+        $('.answers').each((index, element) => {
+          $('.questions').hide();
+          $('.answers').show();
+          $(element).text(responseData.results[index].correct_answer);
+        });
+      });
     }, function(error) {
       $('.showErrors').text(`There was an error processing your request: ${error}`);
     });
   });
 });
 
-    /*function getElements(response) {
+/*function getElements(response) {
       $('question').each((index, element) => {
         (element).text(response.results[index].question);
       });
